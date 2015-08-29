@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Ob\Di
+        psr4_prefix: Ob\Di
+        src_path: src
