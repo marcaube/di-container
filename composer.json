@@ -1,0 +1,38 @@
+{
+    "name": "ob/di-container",
+    "description": "",
+    "keywords": [],
+
+    "license": "MIT",
+    "type": "project",
+
+    "authors": [
+        {
+            "name": "Marc Aubé"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4"
+    },
+
+    "require-dev": {
+        "phpspec/phpspec": "^2.2"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Ob\\Di\\": "src/"
+        }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+
+    "config": {
+        "bin-dir": "bin"
+    }
+}
