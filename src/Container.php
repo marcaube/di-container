@@ -100,7 +100,7 @@ class Container
     public function get($name)
     {
         if (!isset($this->instances[$name])) {
-            $this->instances[$name] = call_user_func($this->callables[$name]);
+            $this->instances[$name] = call_user_func($this->callables[$name], $this);
         }
 
         return $this->instances[$name];

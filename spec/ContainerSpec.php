@@ -93,4 +93,30 @@ class ContainerSpec extends ObjectBehavior
         $this->get('service')->shouldHaveType('\stdClass');
         $this->get('service')->shouldNotReturn($service);
     }
+
+    function it_can_create_parameterized_services()
+    {
+        $this->beConstructedWith(['foo' => 'bar']);
+
+        $this->set('service', function ($container) {
+            return new Service($container->getParam('foo'));
+        });
+
+        $this->get('service')->getParam()->shouldBe('bar');
+    }
+}
+
+class Service
+{
+    private $param;
+
+    public function __construct($param)
+    {
+        $this->param = $param;
+    }
+
+    public function getParam()
+    {
+        return $this->param;
+    }
 }
