@@ -19,6 +19,13 @@ class Container
     private $callables = [];
 
     /**
+     * A registry of service factories.
+     *
+     * @var array
+     */
+    private $factories = [];
+
+    /**
      * A registry of service instance.
      *
      * @var array
@@ -91,6 +98,17 @@ class Container
     }
 
     /**
+     * Register a callable as a factory service.
+     *
+     * @param string   $name     The service name
+     * @param callable $callable A callable that returns an object.
+     */
+    public function factory($name, $callable)
+    {
+        $this->factories[$name] = $callable;
+    }
+
+    /**
      * Get a service by name.
      *
      * @param string $name The service name
@@ -99,6 +117,10 @@ class Container
      */
     public function get($name)
     {
+        if (isset($this->factories[$name])) {
+            return call_user_func($this->factories[$name], $this);
+        }
+
         if (!isset($this->instances[$name])) {
             $this->instances[$name] = call_user_func($this->callables[$name], $this);
         }
@@ -115,6 +137,6 @@ class Container
      */
     public function has($name)
     {
-        return isset($this->callables[$name]);
+        return isset($this->factories[$name]) || isset($this->callables[$name]);
     }
 }

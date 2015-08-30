@@ -104,13 +104,26 @@ class ContainerSpec extends ObjectBehavior
 
         $this->get('service')->getParam()->shouldBe('bar');
     }
+
+    function it_can_register_a_service_factory()
+    {
+        $this->beConstructedWith(['foo' => 'bar']);
+
+        $this->factory('service', function () {
+            return new Service();
+        });
+        $this->has('service')->shouldBe(true);
+
+        $service = $this->get('service');
+        $this->get('service')->shouldNotReturn($service);
+    }
 }
 
 class Service
 {
     private $param;
 
-    public function __construct($param)
+    public function __construct($param = null)
     {
         $this->param = $param;
     }
