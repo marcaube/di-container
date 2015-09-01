@@ -132,6 +132,21 @@ class ContainerSpec extends ObjectBehavior
 
         $this->getParam('random')->shouldBeInt();
     }
+
+    function it_can_extend_a_service_definition()
+    {
+        $this->set('service', function () {
+            return new Service('foo');
+        });
+
+        $this->extend('service', function ($service) {
+            $service->setParam('bar');
+
+            return $service;
+        });
+
+        $this->get('service')->getParam()->shouldReturn('bar');
+    }
 }
 
 class Service
@@ -146,5 +161,10 @@ class Service
     public function getParam()
     {
         return $this->param;
+    }
+
+    public function setParam($value)
+    {
+        $this->param = $value;
     }
 }

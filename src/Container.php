@@ -168,4 +168,21 @@ class Container
     {
         return $this->callables[$name];
     }
+
+    /**
+     * Extends a service definition.
+     *
+     * @param string   $name     The service name
+     * @param callable $callable A callable that extends the service definition
+     */
+    public function extend($name, $callable)
+    {
+        $service = $this->callables[$name];
+
+        $extended = function ($c) use ($callable, $service) {
+            return $callable($service($c), $c);
+        };
+
+        $this->set($name, $extended);
+    }
 }
