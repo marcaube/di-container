@@ -60,7 +60,13 @@ class Container
      */
     public function getParam($name)
     {
-        return $this->parameters[$name];
+        $param = $this->parameters[$name];
+
+        if (is_callable($param)) {
+            return $param();
+        }
+
+        return $param;
     }
 
     /**
@@ -83,6 +89,17 @@ class Container
     public function unsetParam($name)
     {
         unset($this->parameters[$name]);
+    }
+
+    /**
+     * Register a function as a parameter.
+     *
+     * @param string   $name     The parameter name
+     * @param callable $callable A callable that returns a value
+     */
+    public function protect($name, $callable)
+    {
+        $this->parameters[$name] = $callable;
     }
 
     /**

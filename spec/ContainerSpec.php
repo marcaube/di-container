@@ -123,6 +123,15 @@ class ContainerSpec extends ObjectBehavior
 
         $this->raw('service')->shouldReturn($callable);
     }
+
+    function it_can_register_function_as_parameter()
+    {
+        $this->protect('random', function () {
+            return rand();
+        });
+
+        $this->getParam('random')->shouldBeInt();
+    }
 }
 
 class Service
