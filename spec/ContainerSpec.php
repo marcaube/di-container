@@ -113,6 +113,16 @@ class ContainerSpec extends ObjectBehavior
         $this->get('service')->shouldHaveType('spec\Ob\Di\Service');
         $this->get('service')->shouldNotReturn($service);
     }
+
+    function it_can_retrieve_a_service_callable()
+    {
+        $callable = function () {
+            return new Service();
+        };
+        $this->set('service', $callable);
+
+        $this->raw('service')->shouldReturn($callable);
+    }
 }
 
 class Service

@@ -139,4 +139,16 @@ class Container
     {
         return isset($this->factories[$name]) || isset($this->callables[$name]);
     }
+
+    /**
+     * Get the anonymous function used to create a service.
+     *
+     * @param string $name The service name
+     *
+     * @return callable
+     */
+    public function raw($name)
+    {
+        return $this->callables[$name];
+    }
 }
