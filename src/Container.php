@@ -197,4 +197,20 @@ class Container
     {
         return isset($this->instances[$name]);
     }
+
+    /**
+     * Configure setter injection for a service definition.
+     *
+     * @param string $name   The service name
+     * @param string $method The method to call
+     * @param array  $params An array of parameters for the method
+     */
+    public function call($name, $method, array $params = [])
+    {
+        $this->extend($name, function ($service) use ($method, $params) {
+            call_user_func_array([$service, $method], $params);
+
+            return $service;
+        });
+    }
 }

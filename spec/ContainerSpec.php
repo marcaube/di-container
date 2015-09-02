@@ -158,6 +158,17 @@ class ContainerSpec extends ObjectBehavior
         $this->get('service');
         $this->initialized('service')->shouldBe(true);
     }
+
+    function it_can_inject_service_parameter_through_a_setter()
+    {
+        $this->set('service', function () {
+            return new Service('foo');
+        });
+
+        $this->call('service', 'setParam', ['bar']);
+
+        $this->get('service')->getParam()->shouldReturn('bar');
+    }
 }
 
 class Service
