@@ -48,6 +48,8 @@ class Container
      */
     public function setParam($name, $value)
     {
+        $this->ensureNameIsString($name);
+
         $this->parameters[$name] = $value;
     }
 
@@ -60,6 +62,8 @@ class Container
      */
     public function getParam($name)
     {
+        $this->ensureNameIsString($name);
+
         $param = $this->parameters[$name];
 
         if (is_callable($param)) {
@@ -78,6 +82,8 @@ class Container
      */
     public function hasParam($name)
     {
+        $this->ensureNameIsString($name);
+
         return isset($this->parameters[$name]);
     }
 
@@ -88,6 +94,8 @@ class Container
      */
     public function unsetParam($name)
     {
+        $this->ensureNameIsString($name);
+
         unset($this->parameters[$name]);
     }
 
@@ -99,6 +107,8 @@ class Container
      */
     public function protect($name, $callable)
     {
+        $this->ensureNameIsString($name);
+
         $this->parameters[$name] = $callable;
     }
 
@@ -110,6 +120,8 @@ class Container
      */
     public function set($name, $callable)
     {
+        $this->ensureNameIsString($name);
+
         $this->callables[$name] = $callable;
         unset($this->instances[$name]);
     }
@@ -122,6 +134,8 @@ class Container
      */
     public function factory($name, $callable)
     {
+        $this->ensureNameIsString($name);
+
         $this->factories[$name] = $callable;
     }
 
@@ -134,6 +148,8 @@ class Container
      */
     public function get($name)
     {
+        $this->ensureNameIsString($name);
+
         if (isset($this->factories[$name])) {
             return call_user_func($this->factories[$name], $this);
         }
@@ -154,6 +170,8 @@ class Container
      */
     public function has($name)
     {
+        $this->ensureNameIsString($name);
+
         return isset($this->factories[$name]) || isset($this->callables[$name]);
     }
 
@@ -166,6 +184,8 @@ class Container
      */
     public function raw($name)
     {
+        $this->ensureNameIsString($name);
+
         return $this->callables[$name];
     }
 
@@ -177,6 +197,8 @@ class Container
      */
     public function extend($name, $callable)
     {
+        $this->ensureNameIsString($name);
+
         $service = $this->raw($name);
 
         $extended = function ($c) use ($callable, $service) {
@@ -195,6 +217,8 @@ class Container
      */
     public function initialized($name)
     {
+        $this->ensureNameIsString($name);
+
         return isset($this->instances[$name]);
     }
 
@@ -212,5 +236,20 @@ class Container
 
             return $service;
         });
+    }
+
+    /**
+     * Guard clause against non-string service identifier.
+     *
+     * @param string $name The service name
+     */
+    private function ensureNameIsString($name)
+    {
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException(sprintf(
+                'The name parameter must be of type string, %s given',
+                is_object($name) ? get_class($name) : gettype($name)
+            ));
+        }
     }
 }

@@ -169,6 +169,24 @@ class ContainerSpec extends ObjectBehavior
 
         $this->get('service')->getParam()->shouldReturn('bar');
     }
+
+    function it_can_not_use_a_non_string_service_name()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->duringSetParam(1, 2);
+        $this->shouldThrow('\InvalidArgumentException')->duringGetParam(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringHasParam(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringUnsetParam(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringProtect(1, function () {});
+
+        $this->shouldThrow('\InvalidArgumentException')->duringSet(1, function () {});
+        $this->shouldThrow('\InvalidArgumentException')->duringFactory(1, function () {});
+        $this->shouldThrow('\InvalidArgumentException')->duringGet(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringHas(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringRaw(1);
+        $this->shouldThrow('\InvalidArgumentException')->duringExtend(1, function () {});
+        $this->shouldThrow('\InvalidArgumentException')->duringInitialized(1, function () {});
+        $this->shouldThrow('\InvalidArgumentException')->duringCall(1, 'foo', [1]);
+    }
 }
 
 class Service
