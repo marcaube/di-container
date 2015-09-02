@@ -127,7 +127,7 @@ class ContainerSpec extends ObjectBehavior
 
     function it_can_register_function_as_parameter()
     {
-        $this->protect('random', function () {
+        $this->setParam('random', function () {
             return rand();
         });
 
@@ -177,7 +177,6 @@ class ContainerSpec extends ObjectBehavior
         $this->shouldThrow('\InvalidArgumentException')->duringGetParam(1);
         $this->shouldThrow('\InvalidArgumentException')->duringHasParam(1);
         $this->shouldThrow('\InvalidArgumentException')->duringUnsetParam(1);
-        $this->shouldThrow('\InvalidArgumentException')->duringProtect(1, function () {});
 
         $this->shouldThrow('\InvalidArgumentException')->duringSet(1, function () {});
         $this->shouldThrow('\InvalidArgumentException')->duringFactory(1, function () {});

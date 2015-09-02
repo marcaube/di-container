@@ -43,6 +43,8 @@ class Container
     /**
      * Set a container parameter.
      *
+     * It can ba a value or a callable that returns a value.
+     *
      * @param string $name  The parameter name
      * @param mixed  $value The parameter value
      */
@@ -100,19 +102,6 @@ class Container
     }
 
     /**
-     * Register a function as a parameter.
-     *
-     * @param string   $name     The parameter name
-     * @param callable $callable A callable that returns a value
-     */
-    public function protect($name, $callable)
-    {
-        $this->ensureNameIsString($name);
-
-        $this->parameters[$name] = $callable;
-    }
-
-    /**
      * Register a callable to create a service by name.
      *
      * @param string   $name     The service name
@@ -155,7 +144,7 @@ class Container
         }
 
         if (!isset($this->instances[$name])) {
-            $this->instances[$name] = call_user_func($this->callables[$name], $this);
+            $this->instances[$name] = call_user_func($this->raw($name), $this);
         }
 
         return $this->instances[$name];
