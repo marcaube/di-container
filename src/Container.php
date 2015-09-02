@@ -185,4 +185,16 @@ class Container
 
         $this->set($name, $extended);
     }
+
+    /**
+     * Returns whether or not a service has been initialized.
+     *
+     * @param string $name The service name
+     *
+     * @return bool
+     */
+    public function initialized($name)
+    {
+        return isset($this->instances[$name]);
+    }
 }

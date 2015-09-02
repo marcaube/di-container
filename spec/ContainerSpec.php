@@ -147,6 +147,17 @@ class ContainerSpec extends ObjectBehavior
 
         $this->get('service')->getParam()->shouldReturn('bar');
     }
+
+    function it_can_check_if_a_service_is_initialized()
+    {
+        $this->set('service', function () {
+            return new Service();
+        });
+
+        $this->initialized('service')->shouldBe(false);
+        $this->get('service');
+        $this->initialized('service')->shouldBe(true);
+    }
 }
 
 class Service
