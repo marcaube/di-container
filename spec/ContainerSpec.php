@@ -109,7 +109,8 @@ class ContainerSpec extends ObjectBehavior
         });
         $this->has('service')->shouldBe(true);
 
-        $service = $this->get('service');
+        $service = $this->getWrappedObject()->get('service');
+
         $this->get('service')->shouldHaveType('spec\Ob\Di\Service');
         $this->get('service')->shouldNotReturn($service);
     }
