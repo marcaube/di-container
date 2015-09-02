@@ -14,6 +14,6 @@ matrix:
 before_script:
     - composer self-update
     - composer --dev install
-    - if [ "$dependencies" = "lowest"]; then composer update --prefer-lowest --prefer-stable -n; fi;
+    - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest --prefer-stable -n; fi;
 
 script: bin/phpspec run -fpretty --verbose
