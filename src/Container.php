@@ -12,7 +12,7 @@ class Container
     private $parameters = [];
 
     /**
-     * A registry of callables to create services.
+     * A registry of callables used to create services.
      *
      * @var array
      */
@@ -63,7 +63,7 @@ class Container
         $param = $this->parameters[$name];
 
         if (is_callable($param)) {
-            return $param();
+            return call_user_func($param);
         }
 
         return $param;
@@ -177,7 +177,7 @@ class Container
      */
     public function extend($name, $callable)
     {
-        $service = $this->callables[$name];
+        $service = $this->raw($name);
 
         $extended = function ($c) use ($callable, $service) {
             return $callable($service($c), $c);
